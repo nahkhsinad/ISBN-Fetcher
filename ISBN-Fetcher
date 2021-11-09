@@ -1,0 +1,21 @@
+import json
+from urllib.request import urlopen
+while True:
+    api = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
+    isbn = input("Enter 10 digit ISBN: ").strip()
+    resp = urlopen(api + isbn)
+    book_data = json.load(resp)
+    volume_info = book_data["items"][0]["volumeInfo"]
+    author = volume_info["authors"]
+    prettify_author = author if len(author) > 1 else author[0]
+    print(f"\nTitle: {volume_info['title']}")
+    print(f"Author: {prettify_author}")
+    print(f"Page Count: {volume_info['pageCount']}")
+    print(f"Publication Date: {volume_info['publishedDate']}") 
+    print(f"Publisher: {volume_info['publisher']}")
+    print(f"categories: {volume_info['categories']}")
+    print(f"Description: {volume_info['description']}")
+    print("\n***\n")
+    user_update = input("Would you like to search for another ISBN? Enter y for Yes or n for No ").lower().strip()
+    if user_update != "y":
+        break
